@@ -1,0 +1,23 @@
+{
+  "name": "bloglist-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoeszhen/bloglist-backend.git"
+  },
+  "keywords": [
+    "backend",
+    "nodejs"
+  ],
+  "author": "zhen shi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zoeszhen/bloglist-backend/issues"
+  },
+  "homepage": "https://github.com/zoeszhen/bloglist-backend#readme"
+}
