@@ -1,25 +1,14 @@
-const http = require('http')
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
+const Blog = require('./models/blog');
 
-const blogSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = 'mongodb+srv://admin:NIyiss9Tn098XyIl@cluster0.7xg2i.mongodb.net/phonebook?retryWrites=true&w=majority'
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
 
 app.use(cors())
 app.use(express.json())
 //For rest client
-//http://localhost:3003/api/blogs
+// http://localhost:3003/api/blogs
 app.get('/api/blogs', (request, response) => {
     Blog
         .find({})
@@ -33,10 +22,10 @@ POST http://localhost:3003/api/blogs HTTP/1.1
 content-type: application/json
 
 {
-    "author": "test author",
-    "title": "test title",
-    "url": "https://testtitle.com",
-    "likes": 5
+    "author": "test author1",
+    "title": "test title1",
+    "url": "https://testtitle1.com",
+    "likes": 2
 }
  */
 
