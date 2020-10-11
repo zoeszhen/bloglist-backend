@@ -1,7 +1,7 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
 // GET http://localhost:3003/api/blogs
-blogsRouter.get('/', async (request, response) => {
+blogsRouter.get('/', async (_, response) => {
   try {
     const blogs = await Blog.find({});
     response.status(200).json(blogs);
@@ -23,7 +23,6 @@ blogsRouter.get('/', async (request, response) => {
    */
 
 blogsRouter.post('/', async (request, response) => {
-  console.log('post');
   const { body } = request;
   const blog = new Blog({
     ...body,
@@ -75,7 +74,7 @@ blogsRouter.delete('/', async (request, response) => {
   }
    */
 
-blogsRouter.put('/:id', async (request, response, next) => {
+blogsRouter.put('/:id', async (request, response) => {
   const { body } = request;
   try {
     const res = Blog.findOneAndUpdate(
