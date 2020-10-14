@@ -8,7 +8,7 @@ const User = require('../models/user');
   content-type: application/json
 
   {
-    "username": "test username2",
+    "username": "test username3",
     "name": "tester1",
     "password": "testPassword1"
   }
@@ -42,14 +42,13 @@ usersRouter.post('/', async (request, response) => {
   });
 
   const savedUser = await user.save();
-  console.log('savedUser', savedUser);
   response.json(savedUser);
 });
 
 // GET http://localhost:3003/api/user
 usersRouter.get('/', async (_, response) => {
   try {
-    const users = await User.find({});
+    const users = await User.find({}).populate('blogs');
     response.status(200).json(users);
   } catch (error) {
     response.status(400).json(error).end();
