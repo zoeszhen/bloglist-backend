@@ -27,7 +27,7 @@ test('create blogs successful', async () => {
   expect(afterCreated.body.length - beforeCreated.body.length).toEqual(1);
 });
 
-test('If like is missing from request, should set to 0', async () => {
+test('should set to 0, If like is missing from request, ', async () => {
   const target = await api
     .post('/api/blogs')
     .send({
@@ -42,7 +42,7 @@ test('If like is missing from request, should set to 0', async () => {
   expect(targetBlog.likes).toEqual(0);
 });
 
-test('If title or url is missing from request, should recive 400', async () => {
+test('should recive 400, if title or url is missing from request,', async () => {
   await api
     .post('/api/blogs')
     .send({
@@ -57,6 +57,42 @@ test('If title or url is missing from request, should recive 400', async () => {
 //   const ids = res.body.map(({ id }) => id);
 //   expect(res.body[0]["_id"]).toBeDefined();
 // });
+
+test('should return 400, if password is less than 3 characters', async () => {
+  await api
+    .post('/api/user')
+    .send({
+      username: 'test',
+      name: 'tester1',
+      password: 'te',
+    })
+    .expect(400)
+    .expect('Username or password is too short, be more than 3 characters');
+});
+
+test('should return 400, if username is less than 3 characters', async () => {
+  await api
+    .post('/api/user')
+    .send({
+      username: 'te',
+      name: 'tester1',
+      password: 'testpassword',
+    })
+    .expect(400)
+    .expect('Username or password is too short, be more than 3 characters');
+});
+
+test('should return 400 user exist error, if username is already exist', async () => {
+  await api
+    .post('/api/user')
+    .send({
+      username: 'test',
+      name: 'tester1',
+      password: 'testpassword',
+    })
+    .expect(400)
+    .expect('User already exist, please login');
+});
 
 afterAll(() => {
   mongoose.connection.close();
