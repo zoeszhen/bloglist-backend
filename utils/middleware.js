@@ -24,12 +24,14 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-const tokenExtractor = (request) => {
+const tokenExtractor = (request, response, next) => {
   const authorization = request.get('authorization');
+  console.log('request', authorization);
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
+    request.token = authorization.substring(7);
   }
-  return null;
+  response.status(403);
+  next();
 };
 
 module.exports = {
