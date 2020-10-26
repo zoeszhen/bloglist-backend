@@ -53,7 +53,7 @@ blogsRouter.post('/', async (request, response) => {
 });
 
 /** For rest client
-  Delete http://localhost:3003/api/blogs
+  Delete http://localhost:3003/api/blogs/5f74c0aa7f1523ea3643b26a
   content-type: application/json
 
   {
@@ -61,20 +61,21 @@ blogsRouter.post('/', async (request, response) => {
   }
    */
 
-blogsRouter.delete('/', async (request, response) => {
-  const blogs = await Blog.find({});
-  const index = blogs.findIndex((item) => item.id === request.body.id);
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-
-  if (blogs[index].user.id.toString() !== decodedToken.id.toString()) {
-    return response.status(401).json({ error: 'token missing or invalid' });
-  }
-
+blogsRouter.delete('/:id', async (request, response, next) => {
+  const user = await User.findOne({ username: request.token.username });
+  const blog = await Blog.findById(request.params.id);
   try {
-    const res = await blogs[index].remove();
-    response.status(200).json(res);
-  } catch (error) {
-    response.status(400).json(error).end();
+    if (!request.token || !request.token.id) {
+      return response.status(401).json({ error: 'token missing or invalid' });
+    }
+    if (blog.user.toString() === user.id.toString()) {
+      await Blog.findByIdAndRemove(request.params.id);
+      response.status(204).end();
+    } else {
+      response.status(401).end();
+    }
+  } catch (exception) {
+    next(exception);
   }
 });
 
